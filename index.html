@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Platzriv - jueguiyo onlien de carreras y calaveras</title>
+</head>
+<body>
+    <div class="game-container">
+        <canvas id="game" width="250" height="250"></canvas>
+        <div class="btns">
+            <button id="up">up</button>
+            <button id="left">left</button>
+            <button id="right">right</button>
+            <button id="down">down</button>
+        </div>
+        <div class="message">
+            <!-- todo -->
+            <p>Hp: <span id="hp"></span></p>
+            <p>Tiempo:⏱ <span id="time"></span></p>
+            <p>Score: 🌟 <span id="score"></span></p>
+            <p>resultado: <span id="result"></span></p>
+            <button id="Reiniciar" class="inactive">Reiniciar 💖</button>
+        </div>
+    </div>
+    <script src="./maps.js"></script>
+    <script src="./game.js"></script>
+</body>
+</html>
