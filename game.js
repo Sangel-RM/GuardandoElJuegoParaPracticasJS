@@ -38,15 +38,27 @@ window.addEventListener('resize', setCanvasSize);
 
 function setCanvasSize() {
   if (window.innerHeight > window.innerWidth) {
-    canvasSize = window.innerWidth * 0.8;
+    canvasSize = window.innerWidth * 0.6;
+    if(window.innerWidth == 320){
+      canvasSize = window.innerWidth * 0.9;
+    }
   } else {
-    canvasSize = window.innerHeight * 0.8;
+    canvasSize = window.innerHeight * 0.6;
+    if(window.innerWidth == 320){
+      canvasSize = window.innerWidth * 0.9;
+    }
   }
-  
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
   
-  elementsSize = canvasSize / 10;
+  if(window.innerWidth < 425){
+    elementsSize = (canvasSize / 10) - 1;
+  }else if(window.innerWidth > 425){
+    elementsSize = (canvasSize / 10) - 2;
+
+  }
 
   startGame();
 }
@@ -56,8 +68,7 @@ function startGame() {
   if(hp == 3){
     heart.innerText = emojis.HEART + emojis.HEART + emojis.HEART;
   }
-
-  game.font = elementsSize + 'px Verdana';
+  game.font = (elementsSize + 1) + 'px Verdana';
   game.textAlign = 'end';
   const map = maps[lvl];
   if(!map){
@@ -81,8 +92,15 @@ function startGame() {
   mapRowCols.forEach((row, rowI) => {
     row.forEach((col, colI) => {
       const emoji = emojis[col];
-      const posX = (elementsSize * (colI + 1));
-      const posY = (elementsSize * (rowI + 1));
+      let posX;
+      let posY;
+      if(window.innerWidth == 320){
+        posX = (elementsSize * (colI + 1.3)) + 1;
+        posY = posY = (elementsSize * (rowI + 1)) + 1;
+      }else if(window.innerWidth > 320){
+        posX = (elementsSize * (colI + 1.4)) + 1;
+        posY = (elementsSize * (rowI + 1.05)) + 1;
+      }
 
       if (col == 'O') {
         if(!playerPosition.y && !playerPosition.x){
@@ -100,7 +118,7 @@ function startGame() {
         });
       }
       
-      game.fillText(emoji, posX + 10, posY - 5);
+      game.fillText(emoji, posX, posY);
     });
   });
 
@@ -116,16 +134,16 @@ function showRecord(){
 // ahora tienes que crear los arrays para detectar las coliciones de bombas 
         // en la clase de mañana 
 function movePlayer() {
-  const gitColisionX = playerPosition.x.toFixed(3) == gifPosition.x.toFixed(3);
-  const gitColisionY = playerPosition.y.toFixed(3) == gifPosition.y.toFixed(3);
+  const gitColisionX = playerPosition.x.toFixed(2) == gifPosition.x.toFixed(2);
+  const gitColisionY = playerPosition.y.toFixed(2) == gifPosition.y.toFixed(2);
   const gitColision = gitColisionX && gitColisionY;
   if(gitColision){
     lvlWin();
   }
 
   const enemyColition = enemyPositions.find(enemy => {
-    const enemyColisionX = enemy.x.toFixed(3) == playerPosition.x.toFixed(3);
-    const enemyColisionY = enemy.y.toFixed(3) == playerPosition.y.toFixed(3);
+    const enemyColisionX = enemy.x.toFixed(2) == playerPosition.x.toFixed(2);
+    const enemyColisionY = enemy.y.toFixed(2) == playerPosition.y.toFixed(2);
     return enemyColisionX && enemyColisionY;
   }
     );
@@ -232,11 +250,11 @@ function moveByKeys(event) {
 }
 function moveUp() {
   // console.log('Me quiero mover hacia arriba');
-  if((playerPosition.y - elementsSize) < elementsSize){
+  if((playerPosition.y - elementsSize).toFixed(5) < elementsSize){
     console.log('!out');
   }else{
     playerPosition.y -= elementsSize;
-    // console.log(playerPosition.y);
+    console.log(playerPosition.y);
     startGame();
   }
 }
